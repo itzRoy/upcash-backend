@@ -5,37 +5,53 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Category;
-use App\Models\Transaction;
 
 class CategoryController extends Controller
 {
 
-    //get all Categories
+
+
+    /**
+     * create category with predefined data and takes name as argument
+     * -----------------------------------------------------------------
+     */
+    public function createCategory(Request $request)
+    {
+        if (!isset($request->name) or !isset($request->type)) return response()->json(['status' => 400, 'error' => true, 'message' => 'name or type of category is not supplied']);
+
+        Category::create([
+            'name' => $request->name,
+            'type' => $request->type
+        ]);
+
+        return response()->json([
+            'Status' => 200,
+            'error' => false,
+            'message' => "Category: $request->name with type: $request->type, has been successfully added!"
+        ]);
+    }
+
+
+    /**
+     * get all Categories
+     * -----------------------------------------------------------------
+     */
     public function getCategories()
     {
-        $name = DB::table('categories')->get();
+        $categories = Category::all();
 
-        return  $name;
+        return  $categories;
     }
 
 
-    //create category with predefined data and takes name as argument
-    public function createCategory($test)
-    {
-        $category = new Category();
-        $category->name = $test;
-        $category->type = "expense";
-        $category->save();
-
-        return "category have been created successfully!";
-    }
-
-
-
-    //read all transaction of a certain category(find by id)
+    /**
+     * find Category by id and get all it's Transactions
+     * using the models relationship
+     * -----------------------------------------------------------------
+     */
     public function getCategoryTransactions($id)
     {
-        //using model relationship
+        //using model relationship (-> transactions)
         $transactions = Category::find($id)->transactions;
         return $transactions;
     }
