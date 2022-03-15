@@ -28,19 +28,20 @@ Route::get('/test', function () {
 
 //create a Category route
 Route::post('/create-category', [CategoryController::class, 'createCategory']);
-
+//-----------------------------------------------------------------------------
 
 //read all categories
 Route::get('/categories', [CategoryController::class, 'getCategories']);
-
+//-----------------------------------------------------------------------------
 
 //find category by id and get all it's transactions
 Route::get('/category-transactions/{id}', [CategoryController::class, 'getCategoryTransactions']);
+//-----------------------------------------------------------------------------
 
+//update a Category 
+Route::put('/update-category/{id}', [CategoryController::class, 'updateCategory']);
+//-----------------------------------------------------------------------------
 
-
-
-Route::get('/create-transaction/{id}', [TransactionController::class, 'makeTransaction']);
-
-
-Route::get('testing', [CategoryController::class, 'createCat']);
+//Delete a Category by id
+Route::delete('/delete-category/{id}', [CategoryController::class, 'deleteCategory']);
+//-----------------------------------------------------------------------------

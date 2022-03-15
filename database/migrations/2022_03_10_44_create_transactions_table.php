@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->float('amount',  4, 2);
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->foreignId('currency_id')->constrained('currencies');
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('recurring_id')->nullable()->constrained('recurrences');
