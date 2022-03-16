@@ -27,3 +27,6 @@ Route::post('/profit-goal-create', [Profit_goal_controller::class, 'create']);
 
 Route::put('/profit-goal-update/{id}', [Profit_goal_controller::class, 'update']);
 
+Route::delete('/profit-goal-delete/{id}', [Profit_goal_controller::class, 'destroy']);
+
+

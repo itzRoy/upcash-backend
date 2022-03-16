@@ -32,17 +32,7 @@ class Profit_goal_controller extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-    //
-
-    }
+   
 
     /**
      * Display the specified resource.
@@ -58,22 +48,12 @@ class Profit_goal_controller extends Controller
 
     public function show($id)
     {
-        $profit_goal = Profit_goal::where('name', $id)->first();
+        $profit_goal = Profit_goal::where('name', $id OR 'id', $id)->first();
         return $profit_goal;
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -121,6 +101,23 @@ class Profit_goal_controller extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (!is_numeric($id)) return "inputted id is not a number!";
+        $profit_goal = Profit_goal::find($id);
+
+        if (!$profit_goal) {
+            return response()->json([
+                'Status' => 404,
+                'error' => true,
+                'message' => "Could not find profit goal with id: '$id'!"
+            ]);
+        }
+        $profit_goal->delete();
+
+        return response()->json([
+            'Status' => 200,
+            'error' => false,
+            'message' => "profit goal: '$id' was successfully deleted!"
+        ]);
+
     }
 }
