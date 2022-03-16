@@ -15,7 +15,7 @@ class CategoryController extends Controller
      * create category with predefined data and takes name as argument
      * -----------------------------------------------------------------
      */
-    public function createCategory(Request $request)
+    public function store(Request $request)
     {
         if (!isset($request->name) or !isset($request->type)) return response()->json(['status' => 400, 'error' => true, 'message' => 'name or type of category is not supplied']);
 
@@ -36,10 +36,9 @@ class CategoryController extends Controller
      * get all Categories
      * -----------------------------------------------------------------
      */
-    public function getCategories()
+    public function index()
     {
         $categories = Category::all();
-
         return  $categories;
     }
 
@@ -49,10 +48,26 @@ class CategoryController extends Controller
      * using the models relationship
      * -----------------------------------------------------------------
      */
-    public function getCategoryTransactions($id)
+    public function show($id)
     {
+        //check if id is a number
+        $isNumber = is_numeric($id);
+        if (!$isNumber) return "the inputted id is not a number";
+
+        //check if Category exists
+        $category = Category::find($id);
+        if (!$category) {
+            return response()->json([
+                'Status' => 404,
+                'error' => true,
+                'message' => "Category with id:'$id' was not found!"
+
+            ]);
+        }
+
         //using model relationship (-> transactions)
-        $transactions = Category::find($id)->transactions;
+        $transactions = $category->transactions;
+        if (empty($transactions->all())) return "The category with id:($id) don't have any transactions!";
         return $transactions;
     }
 
@@ -62,7 +77,7 @@ class CategoryController extends Controller
      * the inputted values from user
      * -----------------------------------------------------------------
      */
-    public function updateCategory(Request $request, $id)
+    public function update(Request $request, $id)
     {
         if (!$request->input()) return 'Nothing was updated ';
 
@@ -87,7 +102,7 @@ class CategoryController extends Controller
         return response()->json([
             'Status' => 200,
             'error' => false,
-            'message' => "Category: $id, was successfully updated!"
+            'message' => "Category with id: '$id' was successfully updated!"
         ]);
     }
 
@@ -95,8 +110,10 @@ class CategoryController extends Controller
      * find a Category by id and delete it
      * -----------------------------------------------------------------
      */
-    function deleteCategory($id)
+    function destroy($id)
     {
+        //check if inputted id is a number
+        if (!is_numeric($id)) return "inputted id is not a number!";
         $category = Category::find($id);
 
         if (!$category) {
@@ -114,4 +131,6 @@ class CategoryController extends Controller
             'message' => "Category: $id, was successfully deleted!"
         ]);
     }
+
+    // ==END OF CLASS================================================
 };

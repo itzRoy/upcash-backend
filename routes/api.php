@@ -26,22 +26,10 @@ Route::get('/test', function () {
 });
 
 
-//create a Category route
-Route::post('/create-category', [CategoryController::class, 'createCategory']);
-//-----------------------------------------------------------------------------
 
-//read all categories
-Route::get('/categories', [CategoryController::class, 'getCategories']);
-//-----------------------------------------------------------------------------
+// Category CRUD route
+Route::resources(['categories' => CategoryController::class]);
 
-//find category by id and get all it's transactions
-Route::get('/category-transactions/{id}', [CategoryController::class, 'getCategoryTransactions']);
-//-----------------------------------------------------------------------------
 
-//update a Category 
-Route::put('/update-category/{id}', [CategoryController::class, 'updateCategory']);
-//-----------------------------------------------------------------------------
-
-//Delete a Category by id
-Route::delete('/delete-category/{id}', [CategoryController::class, 'deleteCategory']);
-//-----------------------------------------------------------------------------
+//Transaction CRUD route
+Route::resources(['transactions' => TransactionController::class]);
