@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RecurringController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CurrencyController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,3 +23,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/test', function () {
     return "hello there";
 });
+
+//user routes
+
+Route::resource('recuring', recurringController::class);
+
+//Admin routes
+
+Route::resource('admin', AdminController::class);
+
+//currency routes
+
+Route::resource('currency', CurrencyController::class);

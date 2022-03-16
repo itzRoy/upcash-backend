@@ -2,85 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreAdminRequest;
-use App\Http\Requests\UpdateAdminRequest;
+use Illuminate\Http\Request;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $data = Admin::all();
+        return  $data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        $wantedRecuring = Admin::find($id);
+        return $wantedRecuring;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreAdminRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreAdminRequest $request)
+    public function destroy($id)
     {
-        //
+        $wantedRecuring = Admin::findOrfail($id);
+        $wantedRecuring->delete();
+        return "deleted";
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Admin $admin)
+    public function store(Request $request)
     {
-        //
+        $rules = array(
+            'username' => 'required',
+            'password' => 'required |min:6'
+        );
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) return "please enter valid data";
+
+        Admin::create($request->all());
+        return "saved";
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Admin $admin)
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $wanteduser = Admin::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateAdminRequest  $request
-     * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateAdminRequest $request, Admin $admin)
-    {
-        //
-    }
+        if (!$wanteduser) {
+            return "Record Not found";
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Admin $admin)
-    {
-        //
+        if ($request->username) $wanteduser->username = $request->username;
+        if ($request->password) $wanteduser->password = $request->password;
+
+        $wanteduser->save();
+        return "Admin Updated";
     }
 }

@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('recurings', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('currencies', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
-            $table->date('start_date');
-            $table->date('end_date');
-
+            $table->integer('exchange_rate');
+            $table->string('currency_code');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recurings');
+        Schema::dropIfExists('currencies');
     }
 };
