@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('recurings', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('recurrences', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
             $table->date('start_date');
             $table->date('end_date');
+            $table->timestamps();
         });
     }
 
