@@ -64,6 +64,22 @@ class CategoryController extends Controller
 
 
     /**
+     * Get all Categories and there transactions
+     * using the models relationship
+     */
+    public function categoriesTransactions()
+    {
+        $categories = Category::all();
+        foreach ($categories as $category) $category->transactions;
+
+        return response()->json([
+            'status' => 200,
+            'data' => $categories
+        ]);
+    }
+
+
+    /**
      * find Category by ID and get all it's Transactions
      * using the models relationship
      * -----------------------------------------------------------------
@@ -108,7 +124,7 @@ class CategoryController extends Controller
 
         //Break function if category was not found
         if (!$category) {
-            return response(404)->json([
+            return response()->json([
                 'Status' => 404,
                 'error' => true,
                 'message' => "Category with id:'$id' was not found!"
@@ -128,6 +144,7 @@ class CategoryController extends Controller
             'message' => "Category with id: '$id' was successfully updated!"
         ]);
     }
+
 
     /**
      * find a Category by id and delete it
