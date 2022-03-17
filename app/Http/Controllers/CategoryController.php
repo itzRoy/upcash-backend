@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
 use Illuminate\Http\Request;
 use App\Models\Category;
 
@@ -17,17 +19,35 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        if (!isset($request->name) or !isset($request->type)) return response()->json(['status' => 400, 'error' => true, 'message' => 'name or type of category is not supplied']);
 
-        Category::create([
+        $rules = [
+            'name' => 'required ',
+            'type' => 'required | in:income,expense ',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        $errorMessage = $validator->errors();
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'error' => false,
+                'message' => 'bad request error',
+                'errors' => $errorMessage
+
+            ]);
+        }
+
+        $category = Category::create([
             'name' => $request->name,
             'type' => $request->type
         ]);
 
         return response()->json([
-            'Status' => 200,
+            'status' => 200,
             'error' => false,
-            'message' => "Category: $request->name with type: $request->type, has been successfully added!"
+            'message' => 'Category created successfully',
+            'Data' => $category
         ]);
     }
 
@@ -66,9 +86,12 @@ class CategoryController extends Controller
         }
 
         //using model relationship (-> transactions)
-        $transactions = $category->transactions;
-        if (empty($transactions->all())) return "The category with id:($id) don't have any transactions!";
-        return $transactions;
+        $category->transactions;
+        return response()->json([
+            'status' => 200,
+            'error' => false,
+            'data' => ['category' => $category],
+        ]);
     }
 
 
@@ -85,7 +108,7 @@ class CategoryController extends Controller
 
         //Break function if category was not found
         if (!$category) {
-            return response()->json([
+            return response(404)->json([
                 'Status' => 404,
                 'error' => true,
                 'message' => "Category with id:'$id' was not found!"

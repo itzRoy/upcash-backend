@@ -15,7 +15,12 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::all();
-        return $transactions;
+        return response()->json([
+            'status' => 200,
+            'error' => false,
+            'message' => 'got all Transactions successfully!',
+            'Data' => $transactions
+        ]);
     }
 
     /**
@@ -36,10 +41,25 @@ class TransactionController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
 
-        if ($validator->fails()) return $validator->validated();
+        $errorMessage = $validator->errors();
 
-        Transaction::create($request->input());
-        return "transaction with title: $request->title, was created successfully!";
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 400,
+                'error' => false,
+                'message' => 'bad request error',
+                'errors' => $errorMessage
+
+            ]);
+        }
+
+        $transaction = Transaction::create($request->input());
+        return response()->json([
+            'status' => 200,
+            'error' => false,
+            'message' => 'Transaction created successfully',
+            'Data' => $transaction
+        ]);
     }
 
     /**
