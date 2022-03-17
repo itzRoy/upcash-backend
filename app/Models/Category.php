@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Currency extends Model
+
+class Category extends Model
 {
-    use HasFactory;
-    protected $table = 'currencies';
-    protected $fillable = ['name', 'exchange_rate', 'currency_code'];
+    protected $table = 'categories';
+    protected $fillable = ['name', 'type'];
 
     public function transactions()
     {
         return $this->hasMany('App\Models\Transaction');
     }
+    use HasFactory;
 }
