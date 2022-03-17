@@ -40,21 +40,10 @@ Route::resource('admin', AdminController::class);
 
 Route::resource('currency', CurrencyController::class);
 
-//create a Category route
-Route::post('/create-category', [CategoryController::class, 'createCategory']);
+
+// Category CRUD route
+Route::resources(['categories' => CategoryController::class]);
 
 
-//read all categories
-Route::get('/categories', [CategoryController::class, 'getCategories']);
-
-
-//find category by id and get all it's transactions
-Route::get('/category-transactions/{id}', [CategoryController::class, 'getCategoryTransactions']);
-
-
-
-
-Route::get('/create-transaction/{id}', [TransactionController::class, 'makeTransaction']);
-
-
-Route::get('testing', [CategoryController::class, 'createCat']);
+//Transaction CRUD route
+Route::resources(['transactions' => TransactionController::class]);
