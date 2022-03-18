@@ -15,11 +15,45 @@ class TransactionController extends Controller
     public function index()
     {
         $transactions = Transaction::all();
+
+        foreach ($transactions as $transaction) $transaction->category;
+
         return response()->json([
             'status' => 200,
             'error' => false,
             'message' => 'got all Transactions successfully!',
             'Data' => $transactions
+        ]);
+    }
+
+
+    /**
+     * find transaction by ID and get all it's Transactions
+     * using the models relationship
+     * -----------------------------------------------------------------
+     */
+    public function show($id)
+    {
+        //check if id is a number
+        $isNumber = is_numeric($id);
+        if (!$isNumber) return "the inputted id is not a number";
+
+        //check if transaction exists
+        $transaction = transaction::find($id);
+        if (!$transaction) {
+            return response()->json([
+                'Status' => 404,
+                'error' => true,
+                'message' => "transaction with id:'$id' was not found!"
+
+            ]);
+        }
+        //using model relationship (-> category)
+        $transaction->category;
+        return response()->json([
+            'status' => 200,
+            'error' => false,
+            'data' => ['Transaction' => $transaction],
         ]);
     }
 

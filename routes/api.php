@@ -30,7 +30,7 @@ Route::get('/test', function () {
 
 //user routes
 
-Route::resource('recuring', recurringController::class);
+Route::resource('recurring', recurringController::class);
 
 //Admin routes
 
@@ -43,7 +43,7 @@ Route::resource('currency', CurrencyController::class);
 
 // Category CRUD route
 Route::resources(['categories' => CategoryController::class]);
-
+Route::get('/categoriesTransactions', [CategoryController::class, 'categoriesTransactions']);
 
 //Transaction CRUD route
 Route::resources(['transactions' => TransactionController::class]);
