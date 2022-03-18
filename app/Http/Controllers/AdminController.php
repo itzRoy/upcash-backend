@@ -30,12 +30,12 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'username' => 'required',
+            'username' => 'required | unique',
             'password' => 'required |min:6'
         );
 
         $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) return "please enter valid data";
+        if ($validator->fails()) return response()->json($validator->errors());
 
         Admin::create($request->all());
         return "saved";

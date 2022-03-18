@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Recurring extends Model
 {
     use HasFactory;
-    protected $table= 'recurrences';
-    protected $fillable =['name','start_date','end_date'];
+    protected $table = 'recurrences';
+    protected $fillable = ['name', 'start_date', 'end_date'];
 
     public function transactions()
     {
         return $this->hasMany('App\Models\Transaction');
     }
-    
+
     use HasFactory;
 }
