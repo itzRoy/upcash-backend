@@ -7,7 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
-
+use App\Http\Controllers\Profit_goal_controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,5 +56,18 @@ Route::get('/category-transactions/{id}', [CategoryController::class, 'getCatego
 
 Route::get('/create-transaction/{id}', [TransactionController::class, 'makeTransaction']);
 
+//show profit goals
+Route::get('/profit-goals', [Profit_goal_controller::class, 'showall']);
+Route::get('/profit-goal/{id}', [Profit_goal_controller::class, 'show']);
 
-Route::get('testing', [CategoryController::class, 'createCat']);
+//create new profit goal
+Route::post('/profit-goal-create', [Profit_goal_controller::class, 'create']);
+
+
+//update profit goal
+Route::put('/profit-goal-update/{id}', [Profit_goal_controller::class, 'update']);
+
+//delete profit goal
+Route::delete('/profit-goal-delete/{id}', [Profit_goal_controller::class, 'destroy']);
+
+
