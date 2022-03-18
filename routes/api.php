@@ -58,17 +58,4 @@ Route::get('/category-transactions/{id}', [CategoryController::class, 'getCatego
 Route::get('/create-transaction/{id}', [TransactionController::class, 'makeTransaction']);
 
 //show profit goals
-Route::get('/profit-goals', [Profit_goal_controller::class, 'showall']);
-Route::get('/profit-goal/{id}', [Profit_goal_controller::class, 'show']);
-
-//create new profit goal
-Route::post('/profit-goal-create', [Profit_goal_controller::class, 'create']);
-
-
-//update profit goal
-Route::put('/profit-goal-update/{id}', [Profit_goal_controller::class, 'update']);
-
-//delete profit goal
-Route::delete('/profit-goal-delete/{id}', [Profit_goal_controller::class, 'destroy']);
-
-
+Route::resources(['profit-goals'=> Profit_goal_controller::class]);

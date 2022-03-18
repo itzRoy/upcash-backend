@@ -13,7 +13,7 @@ class Profit_goal_controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
             if (!isset($request->name) or !isset($request->year) or !isset($request->amount)) return response()->json(['status' => 400, 'error' => true, 'message' => 'name amount or type is missing']);
     
@@ -40,7 +40,7 @@ class Profit_goal_controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showall()
+    public function index()
     {
         $profit_goal = Profit_goal::all();
         return $profit_goal;
@@ -48,7 +48,7 @@ class Profit_goal_controller extends Controller
 
     public function show($id)
     {
-        $profit_goal = Profit_goal::where('name', $id OR 'id', $id)->first();
+        $profit_goal = Profit_goal::find($id);
         return $profit_goal;
 
     }
