@@ -28,7 +28,7 @@ Route::get('/test', function () {
     return "hello there";
 });
 
-//user routes
+//recuring routes
 
 Route::resource('recurring', recurringController::class);
 
@@ -42,19 +42,8 @@ Route::resource('currency', CurrencyController::class);
 
 
 // Category CRUD route
-Route::resources(['categories' => CategoryController::class]);
+Route::resources(['/categories' => CategoryController::class]);
 Route::get('/categoriesTransactions', [CategoryController::class, 'categoriesTransactions']);
-
-//read all categories
-Route::get('/categories', [CategoryController::class, 'getCategories']);
-
-
-//find category by id and get all it's transactions
-Route::get('/category-transactions/{id}', [CategoryController::class, 'getCategoryTransactions']);
-
-
-
-
 Route::get('/create-transaction/{id}', [TransactionController::class, 'makeTransaction']);
 
 //show profit goals
