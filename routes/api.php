@@ -7,7 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
-
+use App\Http\Controllers\Profit_goal_controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,5 +45,17 @@ Route::resource('currency', CurrencyController::class);
 Route::resources(['categories' => CategoryController::class]);
 Route::get('/categoriesTransactions', [CategoryController::class, 'categoriesTransactions']);
 
-//Transaction CRUD route
-Route::resources(['transactions' => TransactionController::class]);
+//read all categories
+Route::get('/categories', [CategoryController::class, 'getCategories']);
+
+
+//find category by id and get all it's transactions
+Route::get('/category-transactions/{id}', [CategoryController::class, 'getCategoryTransactions']);
+
+
+
+
+Route::get('/create-transaction/{id}', [TransactionController::class, 'makeTransaction']);
+
+//show profit goals
+Route::resources(['profit-goals'=> Profit_goal_controller::class]);
