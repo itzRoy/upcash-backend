@@ -30,7 +30,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $rules = array(
-            'username' => 'required | unique',
+            'username' => 'required | unique:admins',
             'password' => 'required |min:6'
         );
 

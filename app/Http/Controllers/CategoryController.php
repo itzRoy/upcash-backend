@@ -22,7 +22,7 @@ class CategoryController extends Controller
 
         $rules = [
             'name' => 'required ',
-            'type' => 'required | in:income,expense ',
+            'type' => 'required | in:income,expense',
         ];
 
         $validator = Validator::make($request->all(), $rules);
