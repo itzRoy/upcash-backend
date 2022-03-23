@@ -20,6 +20,8 @@ class AdminController extends Controller
         return $wantedRecuring;
     }
 
+
+
     public function destroy($id)
     {
         $wantedRecuring = Admin::findOrfail($id);

@@ -8,6 +8,8 @@ use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\Profit_goal_controller;
+use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +37,8 @@ Route::resource('recurring', recurringController::class);
 //Admin routes
 
 Route::resource('admin', AdminController::class);
+Route::get('/getadmin/{$id}', [AdminController::class, 'getAdmin']);
+
 
 //currency routes
 
@@ -48,3 +52,10 @@ Route::get('/create-transaction/{id}', [TransactionController::class, 'makeTrans
 
 //show profit goals
 Route::resources(['profit-goals'=> Profit_goal_controller::class]);
+
+
+//auth routes
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/addadmin', [AuthController::class, 'addAdmin']);
+Route::get('/authadmin',[AuthController::class, 'authAdmin'])->middleware('auth:api');
