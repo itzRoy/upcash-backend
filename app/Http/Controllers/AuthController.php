@@ -53,7 +53,8 @@ class AuthController extends Controller
       ]);
   
       return $admin;
-    }catch(\Exepion $exeption){
+    }
+    catch(\Excepion $exeption){
       return response([
         'message' => $exeption->getMessage()
       ], status: 400);
