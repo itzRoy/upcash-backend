@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -52,7 +53,9 @@ class AdminController extends Controller
         }
 
         if ($request->username) $wanteduser->username = $request->username;
-        if ($request->password) $wanteduser->password = $request->password;
+        if ($request->password)
+        $pass = Hash::make($request->password);
+         $wanteduser->password = $pass;
 
         $wanteduser->save();
         return "Admin Updated";
